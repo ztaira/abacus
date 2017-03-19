@@ -4,7 +4,6 @@
   "main": "./main.js",
   "scripts": {
     "start": "electron ./app/main.js",
-    "test_mocha": "electron-mocha --renderer ./tests",
     "test": "mocha ./tests"
   },
   "devDependencies": {
