@@ -19,10 +19,14 @@ function moveFives(row, direction) {
 
     for (i = 0; i < 2; i = i + 1) {
         if (i >= 2 - abacusModel[row].fivesState) {
-            d3.select("#" + abacusModel[row].fivesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
         }
         else {
-            d3.select("#" + abacusModel[row].fivesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
         }
     }
 }
@@ -48,10 +52,14 @@ function moveOnes(row, direction) {
 
     for (i = 0; i < 5; i = i + 1) {
         if (i < abacusModel[row].onesState) {
-            d3.select("#" + abacusModel[row].onesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
         }
         else {
-            d3.select("#" + abacusModel[row].onesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
         }
     }
 }
@@ -61,13 +69,17 @@ function moveAllFives(row, direction) {
     if (direction === "up") {
         abacusModel[row].fivesState = 0;
         for (i = 0; i < 2; i = i + 1) {
-            d3.select("#" + abacusModel[row].fivesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
         }
     }
     else if (direction === "down") {
         abacusModel[row].fivesState = 2;
         for (i = 0; i < 2; i = i + 1) {
-            d3.select("#" + abacusModel[row].fivesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
         }
     }
 }
@@ -77,13 +89,17 @@ function moveAllOnes(row, direction) {
     if (direction === "up") {
         abacusModel[row].onesState = 5;
         for (i = 0; i < 5; i = i + 1) {
-            d3.select("#" + abacusModel[row].onesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
         }
     }
     else if (direction === "down") {
         abacusModel[row].onesState = 0;
         for (i = 0; i < 5; i = i + 1) {
-            d3.select("#" + abacusModel[row].onesMembers[i]).transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
         }
     }
 }

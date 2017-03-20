@@ -1,5 +1,44 @@
 body {
     margin: 0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
     -webkit-app-region: drag;
     -webkit-user-select: none;
+}
+
+#menubar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 625px;
+    width: 175px;
+    color: white;
+    background-color: rgb(37, 37, 37);
+    padding: 25px 0px 25px 25px;
+    font-family: Helvetica Neue;
+    font-weight: 300;
+    font-size: 18px;
+}
+
+#menubar div {
+    text-align: center;
+    padding: 15px 10px 15px 10px;
+    cursor: pointer;
+}
+
+#menubar div:hover {
+    background-color: rgb(51, 102, 153)
+}
+
+h1 {
+    color: rgb(225, 225, 225);
+    text-align: center;
+    margin: 15px 0px 20px 0px;
+    cursor: default;
+}
+
+#svgAbacus {
+    position: relative;
+    top: 0px;
+    left: 200px;
 }

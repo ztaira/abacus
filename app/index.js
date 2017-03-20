@@ -12,10 +12,15 @@ var screenSize = screen.getPrimaryDisplay().size;
 // var beadColor = "9feaf9";
 
 // neu theme
-var frameColor = "696969";
-var backgroundColor = "c0c0c0";
-var rodColor = "808080";
-var beadColor = "336699";
+// var frameColor = "696969";
+var frameColor = "252525"
+// var backgroundColor = "c0c0c0";
+var backgroundColor = "191919";
+// var rodColor = "808080";
+var rodColor = "303030";
+// var beadColor = "336699";
+var beadColor = "303030";
+var beadOnColor = 336699;
 
 // size data
 var frameWidth = 25;
@@ -23,7 +28,8 @@ var beadWidth = 50;
 var beadRadius = beadWidth / 2
 var spaceWidth = beadWidth / 2;
 var leftRowXLocation = frameWidth + beadWidth/2 + spaceWidth;
-var rodWidth = 10;
+// var rodWidth = 10;
+var rodWidth = 2;
 var numRows = 10;
 var windowWidth = (beadWidth+spaceWidth)*numRows + spaceWidth + 2*frameWidth;
 var windowHeight = (beadWidth * 11) + 3*frameWidth;
@@ -137,7 +143,7 @@ function generateFrameRectangleData () {
     frameData.push({"x": 0, "y": frameWidth + 4 * beadWidth, "width": window.innerWidth, "height": frameWidth});
     frameData.push({"x": 0, "y": window.innerHeight - frameWidth, "width": window.innerWidth, "height": frameWidth});
     frameData.push({"x": 0, "y": 0, "width": frameWidth, "height": window.innerHeight});
-    frameData.push({"x": window.innerWidth - frameWidth, "y": 0, "width": frameWidth, "height": window.innerHeight});
+    frameData.push({"x": window.innerWidth - 200 - frameWidth, "y": 0, "width": frameWidth, "height": window.innerHeight});
     return frameData;
 }
 
@@ -169,7 +175,7 @@ function renderAbacus() {
     var svg = d3.select("body")
         .append("svg")
         .attr("id", "svgAbacus")
-        .attr("width", window.innerWidth)
+        .attr("width", window.innerWidth - 200)
         .attr("height", window.innerHeight);
 
     // create the background
