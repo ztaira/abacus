@@ -4,7 +4,7 @@ practice using an abacus without actually having to carry around an abacus.
 
 ### Usage:
 - Clone this repository with `git clone https://github.com/ztaira14/abacus.git`
-- Download [npm](https://www.npmjs.com/) if you don't have it
+- Install [npm](https://www.npmjs.com/) if you don't have it
 - Install the required dependencies with `npm install --only=dev`
 - Optionally view the installed nodes with `npm ls --depth=0`
 - Launch the app with `npm start`
@@ -35,6 +35,6 @@ and work with practice numbers
 - package.json...............The package.json file
 ```
 
-### Example Output (window is 1025x625):
+### Example Output:
 ![abacus](https://github.com/ztaira14/abacus/blob/master/images/abacus.png 'Numbers displayed: 1-3-5-7-9-2-4-6-8-10')
 
