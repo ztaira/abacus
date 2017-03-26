@@ -208,5 +208,25 @@ describe('move bead functions', function () {
       });
   });
 
+  it("resetBeads() resets all the beads to their starting position", function () {
+      return app.client.execute(function() {
+          for (x = 1; x < 10; x = x + 1) {
+              moveOnes("row" + x.toString(), "up");
+              moveFives("row" + x.toString(), "down");
+          }
+          resetBeads();
+          return abacusModel;
+      }).then(function(abacusModel) {
+          var all_zero = true;
+          for (x = 0; x < 10; x = x + 1) {
+              if ((abacusModel.value["row" + x.toString()].onesState !== 0) ||
+                  (abacusModel.value["row" + x.toString()].fivesState !== 0)) {
+                  boolean_variable = false;
+              }
+          }
+          return all_zero;
+      });
+  });
+
 });
 
