@@ -1,47 +1,53 @@
+/* Abacus, by Zachary Taira
+ * License: WTFPL
+ * I'd appreciate if you gave me credit, though.
+ *
+ * TABLE OF CONTENTS:
+ * 1) defining variables
+ * 2) functions to set up the window and its features
+ * 3) functions to change state (move beads, etc)
+ * 4) things to do upon loading
+ */
+
+
+// ===========================================================================
+// 1) defining variables
+// ===========================================================================
+
+// requires
 const electron = require("electron");
 const screen = electron.screen;
 const d3 = require("d3");
 const $ = require("jquery");
 
-var screenSize = screen.getPrimaryDisplay().size;
-
-// electron theme
-// var frameColor = "6798a2";
-// var backgroundColor = "2e2b3b";
-// var rodColor = "2f3241";
-// var beadColor = "9feaf9";
-
-// neu theme
-// var frameColor = "696969";
-var frameColor = "252525"
-// var backgroundColor = "c0c0c0";
-var backgroundColor = "191919";
-// var rodColor = "808080";
-var rodColor = "303030";
-// var beadColor = "336699";
-var beadColor = "303030";
-var beadOnColor = 336699;
+// spotify theme, but blue
+const frameColor = "252525"
+const backgroundColor = "191919";
+const rodColor = "303030";
+const beadColor = "303030";
+const beadOnColor = 336699;
 
 // size data
-var frameWidth = 25;
-var beadWidth = 50;
-var beadRadius = beadWidth / 2
-var spaceWidth = beadWidth / 2;
-var leftRowXLocation = frameWidth + beadWidth/2 + spaceWidth;
-// var rodWidth = 10;
-var rodWidth = 2;
-var numRows = 10;
-var windowWidth = (beadWidth+spaceWidth)*numRows + spaceWidth + 2*frameWidth;
-var windowHeight = (beadWidth * 11) + 3*frameWidth;
+const frameWidth = 25;
+const beadWidth = 50;
+const beadRadius = beadWidth / 2
+const spaceWidth = beadWidth / 2;
+const leftRowXLocation = frameWidth + beadWidth/2 + spaceWidth;
+const rodWidth = 2;
+const numRows = 10;
+const windowWidth = (beadWidth+spaceWidth)*numRows + spaceWidth + 2*frameWidth;
+const windowHeight = (beadWidth * 11) + 3*frameWidth;
 
 // model for abacus data
-var abacusModel = createAbacusModel();
+const abacusModel = createAbacusModel();
 
-// for the two random numbers to practice with
+// variables for the two random numbers to practice with
 var number1 = 0,
     number2 = 0;
 
-console.log(windowWidth.toString() + ", " + windowHeight.toString());
+// ===========================================================================
+// 2) functions to set up the window and its features
+// ===========================================================================
 
 // creates a data structure to model the state of the abacus
 function createAbacusModel() {
@@ -232,9 +238,129 @@ function renderAbacus() {
                 .style("fill", beadColor);
 }
 
+// ===========================================================================
+// 3) functions to change state (move beads, etc)
+// ===========================================================================
+
+// function to move one of the top two beads in a row
+function moveFives(row, direction) {
+    if (direction === "up") {
+        if (abacusModel[row].fivesState > 0) {
+            abacusModel[row].fivesState = abacusModel[row].fivesState - 1;
+        }
+        else {
+            abacusModel[row].fivesState = 0;
+        }
+    }
+    else if (direction === "down") {
+        if (abacusModel[row].fivesState < 2) {
+            abacusModel[row].fivesState = abacusModel[row].fivesState + 1;
+        }
+        else {
+            abacusModel[row].fivesState = 2;
+        }
+    }
+
+    for (i = 0; i < 2; i = i + 1) {
+        if (i >= 2 - abacusModel[row].fivesState) {
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+        }
+        else {
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+        }
+    }
+}
+
+// function to move one of the bottom five beads in a row
+function moveOnes(row, direction) {
+    if (direction === "up") {
+        if (abacusModel[row].onesState < 5) {
+            abacusModel[row].onesState = abacusModel[row].onesState + 1;
+        }
+        else {
+            abacusModel[row].onesState = 5;
+        }
+    }
+    else if (direction === "down") {
+        if (abacusModel[row].onesState > 0) {
+            abacusModel[row].onesState = abacusModel[row].onesState - 1;
+        }
+        else {
+            abacusModel[row].onesState = 0;
+        }
+    }
+
+    for (i = 0; i < 5; i = i + 1) {
+        if (i < abacusModel[row].onesState) {
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+        }
+        else {
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+        }
+    }
+}
+
+// function to move the top two beads in a row at the same time
+function moveAllFives(row, direction) {
+    if (direction === "up") {
+        abacusModel[row].fivesState = 0;
+        for (i = 0; i < 2; i = i + 1) {
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+        }
+    }
+    else if (direction === "down") {
+        abacusModel[row].fivesState = 2;
+        for (i = 0; i < 2; i = i + 1) {
+            d3.select("#" + abacusModel[row].fivesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+        }
+    }
+}
+
+// function to move the bottom five beads in a row at the same time
+function moveAllOnes(row, direction) {
+    if (direction === "up") {
+        abacusModel[row].onesState = 5;
+        for (i = 0; i < 5; i = i + 1) {
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadOnColor)
+                .transition().duration(50).attr("cy", function(d) { return d.onLocation; })
+        }
+    }
+    else if (direction === "down") {
+        abacusModel[row].onesState = 0;
+        for (i = 0; i < 5; i = i + 1) {
+            d3.select("#" + abacusModel[row].onesMembers[i])
+                .transition().duration(50).style("fill", beadColor)
+                .transition().duration(50).attr("cy", function(d) { return d.offLocation; })
+        }
+    }
+}
+
+// function to reset all the beads at the same time
+function resetBeads() {
+    for (x = 0; x < 10; x = x+1) {
+        console.log("row" + x.toString());
+        moveAllFives("row" + x.toString(), "up");
+        moveAllOnes("row" + x.toString(), "down");
+    }
+}
+
+// function to set the two random numbers to practice with
 function setRandomNumbers() {
-    number1 = Math.round(Math.random() * 100000);
-    number2 = Math.round(Math.random() * 100000);
+    number1 = Math.round(Math.random() * 1000);
+    number2 = Math.round(Math.random() * 1000);
     alert(number1.toString() + ", " + number2.toString());
 }
 
@@ -354,5 +480,12 @@ function keydownHandler(event) {
     }
 }
 
+// ===========================================================================
+// 4) things to do upon loading
+// ===========================================================================
+// render the abacus
 renderAbacus();
+// set the reset button function
+$("#menuitem1").on("click", resetBeads);
+// set keydown handler
 $("body").keydown(keydownHandler);

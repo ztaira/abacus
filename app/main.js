@@ -1,10 +1,23 @@
 // Thanks, https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md!
+/*
+ * TABLE OF CONTENTS:
+ * 1) defining variables
+ * 2) creating the main window
+ */
+
+// ===========================================================================
+// 1) defining variables
+// ===========================================================================
 
 const electron = require('electron')
 const {app, BrowserWindow} = electron
 const d3 = require("d3")
 const path = require('path')
 const url = require('url')
+
+// ===========================================================================
+// 2) creating the main window
+// ===========================================================================
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
