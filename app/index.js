@@ -361,7 +361,6 @@ function resetBeads() {
 function setRandomNumbers() {
     number1 = Math.round(Math.random() * 1000);
     number2 = Math.round(Math.random() * 1000);
-    alert(number1.toString() + ", " + number2.toString());
 }
 
 // function to handle keydown events
@@ -469,15 +468,62 @@ function keydownHandler(event) {
         case "?": moveAllOnes("row9", "down"); break;
 
         // control cases and default
-        case "Enter": alert(number1.toString() + ", " + number2.toString()); break;
-        case "=": alert(number1 + number2); break;
-        case "-": alert(number1 - number2); break;
-        case "]": alert(number1 * number2); break;
-        case "[": alert(number1 / number2); break;
-        case "\\": alert(number1 % number2); break;
-        case "`": setRandomNumbers(); break;
+        case "Enter":
+                     alert("Practice numbers: " + number1.toString() + ", " + number2.toString());
+                     break;
+        case "=":
+                     var sum = number1 + number2;
+                     displayAlert(sum, " + ");
+                     break;
+        case "-":
+                     var diff = number1 - number2;
+                     displayAlert(diff, " - ");
+                     break;
+        case "]":
+                     var product = number1 * number2;
+                     displayAlert(product, " * ");
+                     break;
+        case "[":
+                     var quotient = number1 / number2;
+                     displayAlert(quotient, " / ");
+                     break;
+        case "\\":
+                     var remainder = number1 % number2;
+                     displayAlert(remainder, " % ");
+                     break;
+        case "`":
+                     setRandomNumbers();
+                     alert("New practice numbers: " + number1.toString() + ", " + number2.toString());
+                     break;
+        case " ": displayInstructions(); break;
         default: break;
     }
+}
+
+// function to display alerts
+function displayAlert(number, connectingString) {
+    alert(number1.toString() + connectingString +  number2.toString() + " = " + number.toString());
+}
+
+// function to display instructions
+function displayInstructions() {
+    var instructions = "Basic Controls:\n" + 
+        "1234567890: Move five-valued bead up\n" +
+        "qwertyuiop: Move five-valued bead down\n" +
+        "asdfghjkl;: Move ones-valued bead up\n" +
+        "zxcvbnm,./: Move ones-valued bead down\n\n" +
+        "Think of it like an abacus overlay for your keyboard: " +
+        "Row 1 is controlled by 1qaz, row 2 is controlled by 2wsx, etc.\n\n" +
+        "Also, for numbers to practice with, the following keys also have functionality:\n" +
+        "`: Generate new practice numbers\n" +
+        "=: Display the sum of your practice numbers\n" +
+        "-: Display the difference of your practice numbers\n" +
+        "]: Display the product of your practice numbers\n" +
+        "[: Display the quotient of your practice numbers\n" +
+        "\\: Display the modulus of your practice numbers\n" +
+        "[shift + key]: Move all the five/ones beads in a row at once\n" +
+        "[enter]: Generate new practice numbers\n";
+    alert(instructions);
 }
 
 // ===========================================================================
